@@ -9,7 +9,7 @@ import jssc.*;
 import java.io.IOException;
 
 
-public class Serial {
+public class SerialUtils {
 
     private static SerialPort instance = null;
 
@@ -31,7 +31,7 @@ public class Serial {
 
     public static SerialPort getInstance() {
         if (null == instance) {
-            instance = new SerialPort(Serial.getPortName());
+            instance = new SerialPort(SerialUtils.getPortName());
             try {
                 instance.openPort();
                 instance.setParams(9600, 8, 1, 0);
