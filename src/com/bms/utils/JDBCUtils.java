@@ -52,4 +52,23 @@ public class JDBCUtils {
         }
     }
 
+    public static void close(Statement ps, Connection conn){
+        try {
+            if (ps != null) {
+                ps.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+            if(conn != null){
+                conn.close();
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

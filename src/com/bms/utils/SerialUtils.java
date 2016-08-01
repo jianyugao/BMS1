@@ -4,14 +4,17 @@ package com.bms.utils;
  * Created by xuxu on 7/25/16.
  */
 
+import com.bms.SerialData;
 import jssc.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class SerialUtils {
 
     private static SerialPort instance = null;
+
 
     private static String getPortName() {
         String[] portNames = SerialPortList.getPortNames();
@@ -20,6 +23,7 @@ public class SerialUtils {
             System.out.println("Press Enter to exit...");
             try {
                 System.in.read();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -44,6 +48,7 @@ public class SerialUtils {
                 instance.setEventsMask(mask);
                 //Add an interface through which we will receive information about events
                 instance.addEventListener(new SerialPortReader());
+                System.out.println("port open!");
             } catch (SerialPortException ex) {
                 System.out.println(ex);
             }
@@ -51,16 +56,32 @@ public class SerialUtils {
         return instance;
     }
 
+
     private static class SerialPortReader implements SerialPortEventListener {
+        private static SerialData sdata = new SerialData();
+
+
+        public static void getSerialData(SerialPortEvent event) {
+            try {
+//                if (sdata == null) {
+//                    sdata = new SerialData(instance.readIntArray(event.getEventValue()));
+//                } else {
+//                    sdata.setContent(instance.readIntArray(event.getEventValue()));
+//                }
+                int [] xxx=instance.readIntArray(event.getEventValue());
+                ArrayList<Integer> ss = new ArrayList<Integer>(xxx);
+
+                sdata.setContent(instance.readIntArray(event.getEventValue()));
+                sdata.setRawData();
+            } catch (SerialPortException ex) {
+                System.out.println(ex);
+            }
+        }
 
         @Override
         public void serialEvent(SerialPortEvent event) {
             if (event.isRXCHAR()) {//If data is available
-                try {
-                    byte buffer[] = instance.readBytes(event.getEventValue());
-                } catch (SerialPortException ex) {
-                    System.out.println(ex);
-                }
+                getSerialData(event);
             } else if (event.isCTS()) {//If CTS line has changed state
                 if (event.getEventValue() == 1) {//If line is ON
                     System.out.println("CTS - ON");
@@ -77,4 +98,6 @@ public class SerialUtils {
         }
     }
 }
+
+
 
