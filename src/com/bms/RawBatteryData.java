@@ -48,18 +48,55 @@ public class RawBatteryData extends RawData {
         this.timestamp = timestamp;
     }
 
+    public int getBatteryId() {
+        return batteryId;
+    }
+
+    public int getChCur() {
+        return chCur;
+    }
+
+    public int getDisCur() {
+        return disCur;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public int getBatteryStatus() {
+        return batteryStatus;
+    }
+
+    public int getChargerStatus() {
+        return chargerStatus;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void print(){
+        System.out.println("chur = " + this.getChCur());
+        System.out.println("dis_cur = " + this.getDisCur());
+        System.out.println("temp = " + this.getTemperature());
+    }
+
+
     @Override
     public void notifyDataHandler(DataHandler dh, RawData rd) {
-
+        dh.handleData(rd);
     }
 
     @Override
     public void setData(List<Integer> list) {
-        //System.out.println("Set RBD1!");
+        System.out.println("Set RBD1!");
 
         this.setChCur((list.get(2).intValue() << 8) + list.get(3).intValue());
 
         this.setDisCur((list.get(4).intValue() << 8) + list.get(5).intValue());
+
+        this.setTemperature((list.get(6).intValue() << 8) + list.get(7).intValue());
 
         this.setBatteryStatus(list.get(8).intValue());
 
@@ -77,6 +114,8 @@ public class RawBatteryData extends RawData {
         //LocalDateTime ldt2 = timestamp.toLocalDateTime();
 
         this.timestamp = timestamp;
+
+        this.print();
         notifyDataHandler(bdh, this);
     }
 

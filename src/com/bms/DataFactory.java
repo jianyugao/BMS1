@@ -9,10 +9,10 @@ public class DataFactory {
     private static RawBatteryData rbd = new RawBatteryData();
     private static RawCmdData rcd = new RawCmdData();
 
-    public static RawData createRawData(int cmdType){
-        if(cmdType == 0){
+    public static RawData createRawData(int serialDataType) {
+        if (serialDataType == 0x0F) {
             return rbd;
-        }else {
+        } else {
             return rcd;
         }
 

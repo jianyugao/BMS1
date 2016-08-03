@@ -63,11 +63,7 @@ public class SerialData {
     }
 
 
-    private void setRawCmdData() {
-        //do something here
-        notifyDataHandler(cdh, cmd);
 
-    }
 
     public void notifyDataHandler(DataHandler dh, RawData rd) {
         dh.handleData(rd);

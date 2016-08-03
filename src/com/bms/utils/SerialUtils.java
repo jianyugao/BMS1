@@ -57,6 +57,8 @@ public class SerialUtils {
             instance.setEventsMask(mask);
             //Add an interface through which we will receive information about events
             instance.addEventListener(new SerialPortReader());
+            instance.purgePort(SerialPort.PURGE_RXCLEAR);
+            instance.purgePort(SerialPort.PURGE_TXCLEAR);
             System.out.println("port open!");
         } catch (SerialPortException ex) {
             System.out.println(ex);

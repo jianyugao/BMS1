@@ -69,6 +69,24 @@ public class JDBCUtils {
         }
     }
 
+    public static void close(Statement ps){
+        try {
+            if (ps != null) {
+                ps.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static void close(ResultSet rs){
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
